@@ -37,7 +37,7 @@
                 android:value=".CatalogActivity" />
         </activity>
         <provider
-            android:authorities="com.exemple.android.pets.data"
+            android:authorities="com.example.android.pets"
             android:name=".data.ChocolateProvider"
             android:exported="false"/>
     </application>
