@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Layout for a single list item in the list of pets -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- Layout for a single list item in the list of pets -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_margin">
@@ -20,51 +18,47 @@
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_margin" />
+                style="@style/TextStyle"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout style="@style/WrapWrap">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/activity_margin"
+                    style="@style/TextStyle"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
                     android:text="@string/quantity" />
 
                 <TextView
                     android:id="@+id/quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/activity_margin" />
+                    style="@style/WrapWrap"
+                    android:layout_margin="@dimen/activity_margin"
+                    android:textSize="@dimen/text_size" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <LinearLayout style="@style/WrapWrap">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/activity_margin"
+                    style="@style/TextStyle"
+                    android:layout_marginLeft="@dimen/activity_margin"
                     android:text="@string/price" />
 
                 <TextView
                     android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/activity_margin" />
+                    style="@style/WrapWrap"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:textSize="@dimen/text_size" />
 
                 <TextView
                     android:id="@+id/price_currency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/activity_margin"
-                    android:text="@string/euro" />
-</LinearLayout>
+                    style="@style/WrapWrap"
+                    android:text="@string/euro"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
         </LinearLayout>
+
         <ImageView
             android:id="@+id/cart_picture"
             android:layout_width="0dp"
@@ -76,6 +70,7 @@
             android:contentDescription="@string/buy"
             android:src="@drawable/ic_shopping_cart_black_24dp" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/picture"
         android:layout_width="0dp"
@@ -83,5 +78,4 @@
         android:layout_weight="1"
         android:contentDescription="@string/app_name"
         android:src="@drawable/empty_chocolate_box" />
-
 </LinearLayout>

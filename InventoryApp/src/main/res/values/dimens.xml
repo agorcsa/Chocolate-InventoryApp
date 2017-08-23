@@ -15,5 +15,13 @@
 
     <!-- Common margin value used throughout the app -->
     <dimen name="activity_margin">16dp</dimen>
+
+    <dimen name="text_size">20sp</dimen>
+
+    <dimen name="image_dimension">100dp</dimen>
+
+    <dimen name="hint">14sp</dimen>
+
+    <dimen name="sad_face">300dp</dimen>
 </resources>
 

@@ -10,7 +10,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Name for the application [CHAR LIMIT=12] -->
     <string name="app_name">Chocolate Inventory App</string>
 
@@ -63,7 +63,7 @@
     <string name="supplier_email">Email</string>
 
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_chocolate_name">Name of the chocolate</string>
+    <string name="hint_chocolate_name">Name of the choco</string>
 
     <!-- Text hint for breed field in the editor [CHAR LIMIT=30] -->
     <string name="hint_chocolate_price">Please enter the price</string>
@@ -155,9 +155,20 @@
 
     <string name="delete_all">Delete all chocolates</string>
 
-    <string name="order_email_subject">Chocolate has been ordered</string>
+    <string name="order_email_subject">Order for <xliff:g example="chocolate name" id="name">%s</xliff:g> chocolate</string>
 
     <string name="order_email">Chocolate quantity is:</string>
 
+    <string name="no_null_quantity">Please introduce a quantity</string>
+
+    <string name="no_null_image">Please choose  an image</string>
+
+    <string name="no_null_price">Please introduce a price</string>
+
+    <string name="no_null_name">Please introduce a name</string>
+
     <string name="buy">Buy chocolate</string>
+
+    <string name="order_chocolate">ORDER\nCHOCOLATE</string>
+
 </resources>

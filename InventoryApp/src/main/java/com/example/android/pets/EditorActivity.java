@@ -15,6 +15,7 @@
  */
 package com.example.android.pets;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,11 +42,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.example.android.pets.data.ChocolateContract;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.text.TextUtils.isEmpty;
 import static java.lang.String.valueOf;
 
 /**
@@ -83,8 +87,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_editor);
         //** Use getIntent() and getData to get the associated URI */
         Intent intent = getIntent();
-        Uri currentChocolateUri = intent.getData();
-        if (currentChocolateUri == null) {
+        mCurrentChocolateUri = intent.getData();
+        if (mCurrentChocolateUri == null) {
             /** add a new chocolate */
             setTitle(getString(R.string.editor_activity_title_add_chocolate));
             //* Invalidate the options menu, so the "Delete" menu option can be hidden. */
@@ -110,22 +114,22 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierNameEditText = (EditText) findViewById(R.id.supplier_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.supplier_phone);
         mSupplierEmailEditText = (EditText) findViewById(R.id.supplier_email);
+        decrementButton = (Button) findViewById(R.id.minus_button);
+        incrementButton = (Button) findViewById(R.id.plus_button);
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantitytEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
         mSupplierEmailEditText.setOnTouchListener(mTouchListener);
-        decrementButton.setOnTouchListener(mTouchListener);
-        incrementButton.setOnTouchListener(mTouchListener);
         //* By each click the decrement button will reduce quantity with 1 unit. */
-        decrementButton = (Button) findViewById(R.id.minus_button);
+        decrementButton.setOnTouchListener(mTouchListener);
         decrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Integer variable for quantity changer that will be initiated with
                 // mQuantityEditText value.
-                if (TextUtils.isEmpty(mQuantitytEditText.getText().toString())) {
+                if (isEmpty(mQuantitytEditText.getText().toString())) {
                     Toast.makeText(EditorActivity.this, R.string.positive_quantity,
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -142,13 +146,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             }
         });
         //* By each click the increment button will add 1 unit to the quantity. */
-        incrementButton = (Button) findViewById(R.id.plus_button);
+        incrementButton.setOnTouchListener(mTouchListener);
         incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Integer variable for quantity changer that will be initiated with
                 // mQuantityEditText value.
-                if (TextUtils.isEmpty(mQuantitytEditText.getText().toString())) {
+                if (isEmpty(mQuantitytEditText.getText().toString())) {
                     Log.e(LOG_TAG, getString(R.string.empty_stock));
                     return;
                 } else {
@@ -265,7 +269,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             super.onBackPressed();
             return;
         }
-
         DialogInterface.OnClickListener discardButtonClickListener =
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -285,13 +288,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         String supplierEmailString = mSupplierEmailEditText.getText().toString().trim();
-        //* validiy check of the input attributes */
+        /**Check the validity of the data */
         if (mCurrentChocolateUri == null && TextUtils.isEmpty(mSavePictureText) || TextUtils.isEmpty(nameString)
-                || TextUtils.isEmpty(priceString) || TextUtils.isEmpty(quantityString)) {
+                || TextUtils.isEmpty((priceString)) || TextUtils.isEmpty(quantityString)) {
             return;
         }
         if (pictureUri == null) {
-            //empty image
             return;
         }
         // Create a ContentValues object
@@ -302,12 +304,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         //* into an integer value. Use 0 by default for both of them. */
         Double price = 0.0;
         int quantity = 0;
-        if (!TextUtils.isEmpty(quantityString)) {
+        if (!isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         } else {
             Toast.makeText(this, R.string.null_quantity, Toast.LENGTH_SHORT).show();
         }
-        if (!TextUtils.isEmpty(priceString)) {
+        if (!isEmpty(priceString)) {
             price = Double.parseDouble(priceString);
         } else {
             Toast.makeText(this, R.string.null_quantity, Toast.LENGTH_SHORT).show();
@@ -318,29 +320,35 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_SUPPLIER_PHONE, supplierPhoneString);
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_SUPPLIER_EMAIL, supplierEmailString);
         // Determine if this is a new or existing chocolate item by checking if mCurrentChocolateUri is null or not
-        if (mCurrentChocolateUri == null) {
-            Uri newUri = getContentResolver().insert(ChocolateContract.ChocolateEntry.CONTENT_URI, values);
-
-            //show a toast message depending on whether or not the insertion  was successful
-            if (newUri == null) {
-                //If the new content URI is null , then there was an error with insertion
-                Toast.makeText(this, getString(R.string.editor_insert_failed), Toast.LENGTH_SHORT).show();
+        try {
+            if (mCurrentChocolateUri == null) {
+                ContentResolver cr = getContentResolver();
+                Uri newUri;
+                newUri = cr.insert(ChocolateContract.ChocolateEntry.CONTENT_URI, values);
+                //show a toast message depending on whether or not the insertion  was successful
+                if (newUri == null) {
+                    //If the new content URI is null , then there was an error with insertion
+                    Toast.makeText(this, getString(R.string.editor_insert_failed), Toast.LENGTH_SHORT).show();
+                } else {
+                    //otherwise, the insertion was successful and we can display a toast
+                    Toast.makeText(this, getString(R.string.editor_insert_successfull), Toast.LENGTH_SHORT).show();
+                    mCurrentChocolateUri = newUri; // ~~~added this line
+                }
             } else {
-                //otherwise, the insertion was successful and we can display a toast
-                Toast.makeText(this, getString(R.string.editor_insert_successfull), Toast.LENGTH_SHORT).show();
+                int rowsAffected = getContentResolver().update(mCurrentChocolateUri, values, null, null);
+                // Show a toast message depending on whether or not the update was successful.
+                if (rowsAffected == 0) {
+                    // If no rows were affected, then there was an error with the update.
+                    Toast.makeText(this, getString(R.string.editor_update_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, the update was successful and we can display a toast.
+                    Toast.makeText(this, getString(R.string.editor_update_successful),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
-        } else {
-            int rowsAffected = getContentResolver().update(mCurrentChocolateUri, values, null, null);
-            // Show a toast message depending on whether or not the update was successful.
-            if (rowsAffected == 0) {
-                // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, getString(R.string.editor_update_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_update_successful),
-                        Toast.LENGTH_SHORT).show();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -400,7 +408,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                                 NavUtils.navigateUpFromSameTask(EditorActivity.this);
                             }
                         };
-
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
                 return true;

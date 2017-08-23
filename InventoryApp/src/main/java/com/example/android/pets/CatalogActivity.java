@@ -99,7 +99,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         return super.onOptionsItemSelected(item);
     }
 
-    //delets all chocolates from the stock
+    //deletes all chocolates from the stock
     private void deleteAllChocolates() {
         int rowsDeleted = getContentResolver().delete(ChocolateContract.ChocolateEntry.CONTENT_URI, null, null);
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from chocolate database");
@@ -113,7 +113,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_NAME,
                 ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_PRICE,
                 ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_QUANTITY};
-
         return new CursorLoader(this, ChocolateContract.ChocolateEntry.CONTENT_URI, projection, null, null, null);
     }
 
@@ -147,7 +146,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 }
             }
         });
-
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
