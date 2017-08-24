@@ -187,8 +187,7 @@ public class ChocolateProvider extends ContentProvider {
             case CHOCOLATES:
                 // Delete all rows that match the selection and selection args
                 rowsDeleted = database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
-
-                return database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case CHOCOLATE_ID:
 
                 // Delete a single row given by the ID in the URI
