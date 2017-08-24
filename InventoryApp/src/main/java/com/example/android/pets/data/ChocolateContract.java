@@ -14,6 +14,7 @@ public final class ChocolateContract {
     public static final String PATH_CHOCOLATE = "chocolate";
 
     public static abstract class ChocolateEntry implements BaseColumns {
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CHOCOLATE);
         public static final String TABLE_NAME = "Chocolates";
         public static final String _ID = "_id";
         public static final String COLUMN_CHOCOLATE_NAME = "name";
@@ -23,7 +24,6 @@ public final class ChocolateContract {
         public static final String COLUMN_CHOCOLATE_SUPPLIER_NAME = "supplier_name";
         public static final String COLUMN_CHOCOLATE_SUPPLIER_PHONE = "supplier_phone";
         public static final String COLUMN_CHOCOLATE_SUPPLIER_EMAIL = "supplier_email";
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CHOCOLATE);
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of chocolates.
@@ -36,6 +36,5 @@ public final class ChocolateContract {
          */
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CHOCOLATE;
-
     }
 }

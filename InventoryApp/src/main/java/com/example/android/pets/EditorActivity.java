@@ -289,8 +289,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         String supplierEmailString = mSupplierEmailEditText.getText().toString().trim();
         /**Check the validity of the data */
-        if (mCurrentChocolateUri == null && TextUtils.isEmpty(mSavePictureText) || TextUtils.isEmpty(nameString)
-                || TextUtils.isEmpty((priceString)) || TextUtils.isEmpty(quantityString)) {
+        if (mCurrentChocolateUri == null && TextUtils.isEmpty(mSavePictureText) && TextUtils.isEmpty(nameString)
+                && TextUtils.isEmpty((priceString)) && TextUtils.isEmpty(quantityString)) {
             return;
         }
         if (pictureUri == null) {

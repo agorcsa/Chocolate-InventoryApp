@@ -105,6 +105,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from chocolate database");
     }
 
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {

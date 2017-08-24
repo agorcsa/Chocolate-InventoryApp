@@ -176,41 +176,51 @@ public class ChocolateProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Track the number of rows that were deleted
-        int rowsDeleted;
-        // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        // Track the number of rows that were deleted
+
+        int rowsDeleted;
+        // Get writable database
+
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case CHOCOLATES:
-                rowsDeleted = database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
                 // Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
+
                 return database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
             case CHOCOLATE_ID:
-                rowsDeleted = database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
+
                 // Delete a single row given by the ID in the URI
                 selection = ChocolateContract.ChocolateEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
                 // If 1 or more rows were deleted, then notify all listeners that the data at the
                 // given URI has changed
                 // Return the number of rows deleted
-                return rowsDeleted;
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
     }
+
 
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case CHOCOLATES:
-                return ChocolateContract.ChocolateEntry.CONTENT_ITEM_TYPE;
+                return ChocolateContract.ChocolateEntry.CONTENT_LIST_TYPE;
             case CHOCOLATE_ID:
                 return ChocolateContract.ChocolateEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
-
 }
 
