@@ -63,7 +63,7 @@
     <string name="supplier_email">Email</string>
 
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_chocolate_name">Name of the choco</string>
+    <string name="hint_chocolate_name">choco name</string>
 
     <!-- Text hint for breed field in the editor [CHAR LIMIT=30] -->
     <string name="hint_chocolate_price">Please enter the price</string>
@@ -155,9 +155,9 @@
 
     <string name="delete_all">Delete all chocolates</string>
 
-    <string name="order_email_subject">Order for <xliff:g example="chocolate name" id="name">%s</xliff:g> chocolate</string>
+    <string name="order_email_subject">Order for <xliff:g id="chocolate_name"></xliff:g> chocolate</string>
 
-    <string name="order_email">Chocolate quantity is:</string>
+    <string name="order_email">Chocolate quantity is: </string>
 
     <string name="no_null_quantity">Please introduce a quantity</string>
 
@@ -170,5 +170,9 @@
     <string name="buy">Buy chocolate</string>
 
     <string name="order_chocolate">ORDER\nCHOCOLATE</string>
+
+    <string name="delete_all_chocolates">All chocolates have been deleted</string>
+
+    <string name="introduce_picture">Please chose a picture"</string>
 
 </resources>

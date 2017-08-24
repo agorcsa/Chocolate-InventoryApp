@@ -178,10 +178,8 @@ public class ChocolateProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         // Track the number of rows that were deleted
-
         int rowsDeleted;
         // Get writable database
-
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case CHOCOLATES:
@@ -189,7 +187,6 @@ public class ChocolateProvider extends ContentProvider {
                 rowsDeleted = database.delete(ChocolateContract.ChocolateEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case CHOCOLATE_ID:
-
                 // Delete a single row given by the ID in the URI
                 selection = ChocolateContract.ChocolateEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
@@ -201,14 +198,11 @@ public class ChocolateProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
-
         if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-
         return rowsDeleted;
     }
-
 
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);

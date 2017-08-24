@@ -176,10 +176,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:" + mSupplierEmailEditText.getText().toString()));
+                intent.setData(Uri.parse("mailto: " + mSupplierEmailEditText.getText().toString()));
                 intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.order_email_subject) +
                         mNameEditText.getText().toString());
-                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.order_email));
+                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.order_email) + mQuantitytEditText.getText().toString());
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
@@ -294,6 +294,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return;
         }
         if (pictureUri == null) {
+            Toast.makeText(this, R.string.introduce_picture, Toast.LENGTH_SHORT).show();
             return;
         }
         // Create a ContentValues object

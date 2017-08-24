@@ -28,8 +28,7 @@
                 style="@style/WrapWrap" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                style="@style/WrapMatch"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:orientation="vertical">
 
@@ -87,12 +86,11 @@
 
             <EditText
                 android:id="@+id/chocolate_quantity"
-                style="@style/WrapWrap"
+                style="@style/TextStyle"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/activity_margin"
                 android:hint="@string/zero"
-                android:inputType="number"
-                android:textSize="15sp" />
+                android:inputType="number" />
 
             <Button
                 android:id="@+id/plus_button"

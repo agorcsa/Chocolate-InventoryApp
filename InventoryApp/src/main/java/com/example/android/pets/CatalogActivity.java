@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.pets.data.ChocolateContract;
 
@@ -102,9 +103,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     //deletes all chocolates from the stock
     private void deleteAllChocolates() {
         int rowsDeleted = getContentResolver().delete(ChocolateContract.ChocolateEntry.CONTENT_URI, null, null);
+        Toast.makeText(this, R.string.delete_all_chocolates, Toast.LENGTH_LONG).show();
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from chocolate database");
     }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

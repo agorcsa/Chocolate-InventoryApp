@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Layout for a single list item in the list of pets -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    style="@style/MatchWrap"
     android:padding="@dimen/activity_margin">
 
     <LinearLayout
@@ -32,9 +31,8 @@
 
                 <TextView
                     android:id="@+id/quantity"
-                    style="@style/WrapWrap"
-                    android:layout_margin="@dimen/activity_margin"
-                    android:textSize="@dimen/text_size" />
+                    style="@style/TextStyle"
+                    android:layout_margin="@dimen/activity_margin"/>
             </LinearLayout>
 
             <LinearLayout style="@style/WrapWrap">
@@ -46,15 +44,13 @@
 
                 <TextView
                     android:id="@+id/price"
-                    style="@style/WrapWrap"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:textSize="@dimen/text_size" />
+                    style="@style/TextStyle"
+                    android:layout_marginLeft="@dimen/activity_margin"/>
 
                 <TextView
                     android:id="@+id/price_currency"
-                    style="@style/WrapWrap"
-                    android:text="@string/euro"
-                    android:textSize="20sp" />
+                    style="@style/TextStyle"
+                    android:text="@string/euro"/>
             </LinearLayout>
 
         </LinearLayout>
