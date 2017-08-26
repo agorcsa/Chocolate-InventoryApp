@@ -81,6 +81,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -281,48 +282,86 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
-    private void saveChocolate() {
+
+    private boolean validateData(
+            String nameString,
+            String priceString,
+            String quantityString,
+            String supplierNameString,
+            String supplierPhoneString,
+            String supplierEmailString) {
+
+        if (pictureUri == null) {
+            Toast.makeText(this, R.string.introduce_picture, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(nameString)) {
+            Toast.makeText(this, "Please introduce the chocolate name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(priceString)) {
+            Toast.makeText(this, "Please introduce the chocolate price", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(quantityString)) {
+            Toast.makeText(this, "Plase introduce the chocolate quantity", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty((supplierNameString))) {
+            Toast.makeText(this, "Please introduce the supplier name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(supplierEmailString)) {
+            Toast.makeText(this, "Please introduce the supplier e-Mail", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(supplierPhoneString)) {
+            Toast.makeText(this, "Please introduce the supplier phone number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // if we got here than all input is valid
+        return true;
+    }
+
+
+    boolean saveChocolate() {
         String nameString = mNameEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantitytEditText.getText().toString().trim();
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         String supplierEmailString = mSupplierEmailEditText.getText().toString().trim();
-        /**Check the validity of the data */
-        if (mCurrentChocolateUri == null && TextUtils.isEmpty(mSavePictureText) && TextUtils.isEmpty(nameString)
-                && TextUtils.isEmpty((priceString)) && TextUtils.isEmpty(quantityString)) {
-            return;
+
+        if (!validateData(nameString,  priceString, quantityString,
+                supplierNameString, supplierPhoneString, supplierEmailString)) {
+            return false;
         }
-        if (pictureUri == null) {
-            Toast.makeText(this, R.string.introduce_picture, Toast.LENGTH_SHORT).show();
-            return;
-        }
+
+        Double price = Double.parseDouble(priceString);
+        int quantity = Integer.parseInt(quantityString);
+
         // Create a ContentValues object
         ContentValues values = new ContentValues();
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_PICTURE, pictureUri.toString());
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_NAME, nameString);
-        //* If the price and quantity are not provided by the user, don't parse the string
-        //* into an integer value. Use 0 by default for both of them. */
-        Double price = 0.0;
-        int quantity = 0;
-        if (!isEmpty(quantityString)) {
-            quantity = Integer.parseInt(quantityString);
-        } else {
-            Toast.makeText(this, R.string.null_quantity, Toast.LENGTH_SHORT).show();
-        }
-        if (!isEmpty(priceString)) {
-            price = Double.parseDouble(priceString);
-        } else {
-            Toast.makeText(this, R.string.null_quantity, Toast.LENGTH_SHORT).show();
-        }
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_PRICE, price);
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_QUANTITY, quantity);
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_SUPPLIER_NAME, supplierNameString);
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_SUPPLIER_PHONE, supplierPhoneString);
         values.put(ChocolateContract.ChocolateEntry.COLUMN_CHOCOLATE_SUPPLIER_EMAIL, supplierEmailString);
+
         // Determine if this is a new or existing chocolate item by checking if mCurrentChocolateUri is null or not
+        boolean isNewChocolate = mCurrentChocolateUri == null;
+
         try {
-            if (mCurrentChocolateUri == null) {
+            if (isNewChocolate) {
                 ContentResolver cr = getContentResolver();
                 Uri newUri;
                 newUri = cr.insert(ChocolateContract.ChocolateEntry.CONTENT_URI, values);
@@ -333,7 +372,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 } else {
                     //otherwise, the insertion was successful and we can display a toast
                     Toast.makeText(this, getString(R.string.editor_insert_successfull), Toast.LENGTH_SHORT).show();
-                    mCurrentChocolateUri = newUri; // ~~~added this line
                 }
             } else {
                 int rowsAffected = getContentResolver().update(mCurrentChocolateUri, values, null, null);
@@ -351,6 +389,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     @Override
@@ -381,9 +420,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save chocolate to database
-                saveChocolate();
-                //exist activity
-                finish();
+                if (saveChocolate() == true) {
+                    //Exit activity
+                    finish();
+                };
+
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -491,7 +532,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the positive and negative buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder  builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_message);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

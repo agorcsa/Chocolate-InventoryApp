@@ -27,6 +27,7 @@ public class ChocolateCursorAdapter extends CursorAdapter {
         super(context, c, 0 /* flags */);
     }
 
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
