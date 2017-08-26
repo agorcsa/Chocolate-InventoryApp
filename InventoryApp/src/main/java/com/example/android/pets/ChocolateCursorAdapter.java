@@ -27,11 +27,21 @@ public class ChocolateCursorAdapter extends CursorAdapter {
         super(context, c, 0 /* flags */);
     }
 
+    // static class ViewHolder {
+    // TextView text;
+    // ImageView image;
+    // }
+
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.list_item, parent, false);
+        //ViewHolder holder = new ViewHolder();
+        // holder.image = (ImageView)view.findViewById((R.id.picture));
+        // holder.text = (TextView)view.findViewById(R.id.name);
+        // holder.text = (TextView)view.findViewById(R.id.price);
+        //holder.text = (TextView)view.findViewById(R.id.quantity);
         return view;
     }
 
@@ -47,6 +57,8 @@ public class ChocolateCursorAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
+        //ViewHolder holder = (ViewHolder) view.getTag();
+
         // Find individual views that we want to modify in the list item layout
         ImageView pictureView = (ImageView) view.findViewById(R.id.picture);
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
@@ -78,6 +90,7 @@ public class ChocolateCursorAdapter extends CursorAdapter {
                 quantity = Integer.parseInt(finalChocolateQuantity);
                 Uri chocolateUri = ContentUris.withAppendedId(ChocolateContract.ChocolateEntry.CONTENT_URI, chocolateId);
                 saleButton(context, chocolateUri, quantity);
+
             }
         });
         if (TextUtils.isEmpty(chocolateQuantity) && TextUtils.isEmpty(chocolatePrice)) {
@@ -93,6 +106,11 @@ public class ChocolateCursorAdapter extends CursorAdapter {
         nameTextView.setText(chocolateName);
         priceTextView.setText(chocolatePrice);
         quantityTextView.setText(chocolateQuantity);
+
+        //holder.text.setText(chocolatePicture);
+        //holder.text.setText(chocolateName);
+        //holder.text.setText(chocolatePrice);
+        //holder.text.setText(chocolateQuantity);
     }
 
     private void saleButton(Context context, Uri uri, int quantity) {
