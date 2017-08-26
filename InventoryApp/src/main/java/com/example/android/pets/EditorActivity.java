@@ -98,7 +98,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         } else {
             /** edit an existing chocolate*/
             setTitle(getString(R.string.editor_activity_title_edit_chocolate));
+            getSupportLoaderManager().initLoader(99, null, this);
         }
+
         mPictureView = (ImageView) findViewById(R.id.new_picture);
         mPictureView.setOnClickListener(new View.OnClickListener() {
             @Override
